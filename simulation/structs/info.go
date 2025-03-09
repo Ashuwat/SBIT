@@ -1,4 +1,4 @@
-package main
+package structs
 
 type Info struct {
 	// data (n x 1)
