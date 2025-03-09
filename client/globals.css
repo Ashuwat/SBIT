@@ -1,0 +1,51 @@
+.body {
+    padding: 0px;
+    margin: 0px
+}
+
+.head {
+    position: absolute;
+    width: 100vw;
+    height: 100px;
+    background-color: gray;
+    border: 0px;
+    padding: 0px;
+}
+
+.sidebarLeft {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 100vh;
+    background: transparent;
+    float: right;
+}
+
+.sidebarLeft > div {
+    background: lightgray;
+    height: 90%;
+    width: 90%;
+    border-radius: 20px;
+    padding: 10px;
+}
+.sidebarRight {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 100vh;
+    background: transparent;
+    float:left;
+}
+
+.sidebarRight > div {
+    background: lightgray;
+    height: 90%;
+    width: 90%;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+
+
