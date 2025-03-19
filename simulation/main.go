@@ -16,18 +16,19 @@ func initWebsocket() {
 	}
 }
 
-func main() {
+func runSim() [][3]float32 {
 	var sim str.Simulation
-	sim.Generations = 100
-	sim.Radius = 2
-	sim.Timestep = 0.1
-	sim.SeedNum = 4
+	sim.GENERATIONS = 10
+	sim.NEIGHBORS_RADIUS = 2
+	sim.TIMESTEP = 0.1
+	sim.SEEDNUM = 0
+	sim.NUMBER_OF_NODES = 100
 
-	// var CurrNodeList = sim.GenerateNodelist(100)
-	// var prevNodeList = CurrNodeList
-	for i := 0; i < int(sim.Generations); i++ {
+	sim.GenerateNodelist()
+	sim.UpdateMovement()
+	return sim.ReturnLocations()
+}
 
-	}
-	// 	nodelist[0].Node_random_velocity()
-	// 	fmt.Println(nodelist[0])
+func main() {
+	runSim()
 }

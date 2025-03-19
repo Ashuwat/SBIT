@@ -3,20 +3,35 @@
 <html>
     <head>
         <link rel="stylesheet" href="globals.css">
-        <title>3D Nodes Visualization</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
-        <script href="./backend.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <title>Sim</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Some 3D Simulation</title>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.146/build/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.146/examples/js/controls/OrbitControls.js"></script>
+    
     </head>
 
     <body class="body">
         <div class="sidebarLeft"><div>
-            <button id="reset">Reset View</button>
+            <h1>Simulation (Alpha)</h1>
+            <button id="fetchDataBtn">Get the data</button>
         </div></div>
-        <!-- <script src="./backend.js"></script> -->
-        <div class="sidebarRight"><div>
-            <h1>hello</h1>
-        </div></div>
+        <script src="script.js"></script>
     </body>
+</html>
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulation Data Viewer</title>
+</head>
+<body>
+    <h2>Fetch Simulation Data</h2>
+    <button id="fetchDataBtn">Get Data</button>
+    <div id="output"></div>
+
+    <script src="backend.js"></script>
+</body>
 </html>
