@@ -3,8 +3,8 @@ package structs
 type price = float32
 
 type Stock_Market struct {
-	price      price
-	prevPrices []price
+	Price      price
+	PrevPrices []price
 	bid        bid
 	ask        ask
 }
@@ -12,31 +12,50 @@ type Stock_Market struct {
 func (mkt *Stock_Market) ProcessTransaction() {
 	// using some weighted (midpoint) average formula to determing
 	// stock price
-
 	var alpha price = 0.9
-	midPrice := mkt.bid.getHighestPrice()
-	mkt.price = mkt.prevPrices[len(mkt.prevPrices)-2] + (1-alpha)*midPrice
-
+	highestBid := mkt.bid.getHighestPrice()
+	lowestAsk := mkt.ask.getLowestPrice()
+	midPrice := (highestBid + lowestAsk) / 2
+	println(midPrice)
+	if midPrice > 0 {
+		mkt.Price = mkt.PrevPrices[len(mkt.PrevPrices)-1] + (1-alpha)*midPrice
+	} else {
+		mkt.Price = mkt.PrevPrices[len(mkt.PrevPrices)-1] + 0.5
+	}
+	mkt.PrevPrices = append(mkt.PrevPrices, mkt.Price)
 }
 
 func (mkt *Stock_Market) Buy(ticket ticket) {
 	mkt.bid.log = append(mkt.bid.log, ticket)
-	println("Node ", ticket.address, "bought a trade")
+	println("Node ", ticket.address, "attempted to buy a trade")
 }
 
 func (mkt *Stock_Market) Sell(ticket ticket) {
 	mkt.ask.log = append(mkt.ask.log, ticket)
-	println("Node ", ticket.address, "bought a trade")
+	println("Node ", ticket.address, "attemped to sell a trade")
 }
 
 func (mkt *Stock_Market) OrderToFill(nodeC NodeCollection, ticket ticket) {
+	if ticket.address == 0 {
+		return
+	}
 	if ticket.action { // its buying
 		if ticket.price >= mkt.ask.getLowestPrice() {
+			mkt.ProcessTransaction()
 			nodeC.updateNodeInvestmentsFromFilledOrder(ticket)
+			mkt.ask.removeFromList(ticket)
+			println("order filled")
+		} else {
+			mkt.ProcessTransaction()
 		}
 	} else { // its selling
 		if ticket.price <= mkt.bid.getHighestPrice() {
+			mkt.ProcessTransaction()
 			nodeC.updateNodeInvestmentsFromFilledOrder(ticket)
+			mkt.bid.removeFromList(ticket)
+			println("order filled")
+		} else {
+			mkt.ProcessTransaction()
 		}
 	}
 }

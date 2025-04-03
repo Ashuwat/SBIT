@@ -16,9 +16,18 @@ type Node struct {
 }
 
 func InitializeNode() *Node {
+	var beliefs []float32
+	var neurons [][2]float32
+
 	n := new(Node)
 	n.layers = rand.IntN(5)
 	n.address = rand.Int32()
+	for range 10 {
+		beliefs = append(beliefs, float32(rand.IntN(10)))
+		neurons = append(neurons, [2]float32{float32(rand.IntN(10)), float32(rand.IntN(10))})
+	}
+	n.trader.MLP.InitializeNetwork(beliefs, neurons)
+
 	return n
 }
 
@@ -26,20 +35,26 @@ func (node *Node) UpdateInfo(info Info) {
 	node.info = info
 }
 
-func (node *Node) DecideToTrade(i int, mkt Stock_Market) {
+func (node *Node) DecideToTrade(i int, mkt Stock_Market) ticket {
 	// true means buy, false meanse sell
-	node.trader.MLP.PropagateForward(node.info.information)
-	action, value := node.trader.MLP.PropagateBackward()
+	action, value := node.trader.MLP.PropagateForward()
 	var ticket ticket
-	ticket.action = ticket.action
+	if action == 1 {
+		ticket.action = true
+	} else if action == 2 {
+		ticket.action = false
+	} else {
+		return ticket
+	}
 	ticket.price = value
 	ticket.address = node.address
 	ticket.date = i
-	if action {
+	if ticket.action {
 		mkt.Buy(ticket)
 	} else {
 		mkt.Sell(ticket)
 	}
+	return ticket
 }
 
 // for group functions

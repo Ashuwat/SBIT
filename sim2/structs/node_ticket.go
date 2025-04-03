@@ -8,5 +8,5 @@ type ticket struct {
 }
 
 func (ticket *ticket) updateTicket() {
-	
+	//
 }
