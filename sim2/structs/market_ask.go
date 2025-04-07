@@ -1,17 +1,21 @@
 package structs
 
 type ask struct {
-	log []ticket
+	log         []ticket
+	lowestPrice Price
 }
 
-func (ask *ask) getLowestPrice() price {
-	var lowestPrice float32
-	for i := range ask.log {
-		if ask.log[i].price > lowestPrice {
-			lowestPrice = ask.log[i].price
+func (ask *ask) init() {
+	ask.lowestPrice = 65535
+}
+
+func (ask *ask) getLowestPrice() Price {
+	for i := 0; i < len(ask.log); i++ {
+		if ask.log[i].price > ask.lowestPrice {
+			ask.lowestPrice = ask.log[i].price
 		}
 	}
-	return lowestPrice
+	return ask.lowestPrice
 }
 
 func (ask *ask) removeFromList(ticket ticket) {

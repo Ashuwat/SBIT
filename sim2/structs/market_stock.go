@@ -1,10 +1,12 @@
 package structs
 
-type price = float32
+import "github.com/x448/float16"
+
+type Price = float16.Float16
 
 type Stock_Market struct {
-	Price      price
-	PrevPrices []price
+	Price      Price
+	PrevPrices []Price
 	bid        bid
 	ask        ask
 }
@@ -12,17 +14,20 @@ type Stock_Market struct {
 func (mkt *Stock_Market) ProcessTransaction() {
 	// using some weighted (midpoint) average formula to determing
 	// stock price
-	var alpha price = 0.9
+	var alpha Price = float16.Fromfloat32(0.9)
 	highestBid := mkt.bid.getHighestPrice()
 	lowestAsk := mkt.ask.getLowestPrice()
 	midPrice := (highestBid + lowestAsk) / 2
-	println(midPrice)
-	if midPrice > 0 {
-		mkt.Price = mkt.PrevPrices[len(mkt.PrevPrices)-1] + (1-alpha)*midPrice
-	} else {
-		mkt.Price = mkt.PrevPrices[len(mkt.PrevPrices)-1] + 0.5
-	}
+	println("e", len(mkt.bid.log), len(mkt.ask.log))
+	mkt.Price = mkt.PrevPrices[len(mkt.PrevPrices)-1] + (1-alpha)*midPrice
 	mkt.PrevPrices = append(mkt.PrevPrices, mkt.Price)
+}
+
+func (mkt *Stock_Market) InitializeMarket(init_price Price) {
+	mkt.Price = init_price
+	mkt.PrevPrices = append(mkt.PrevPrices, init_price)
+	mkt.ask.init()
+	mkt.bid.init()
 }
 
 func (mkt *Stock_Market) Buy(ticket ticket) {

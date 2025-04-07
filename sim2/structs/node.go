@@ -1,7 +1,7 @@
 package structs
 
 import (
-	models "main/structs/models"
+	"main/structs/models"
 	"math/rand/v2"
 )
 
@@ -12,7 +12,7 @@ type Node struct {
 	info       Info
 	layers     int
 	address    address
-	investment price
+	investment Price
 }
 
 func InitializeNode() *Node {
@@ -27,7 +27,6 @@ func InitializeNode() *Node {
 		neurons = append(neurons, [2]float32{float32(rand.IntN(10)), float32(rand.IntN(10))})
 	}
 	n.trader.MLP.InitializeNetwork(beliefs, neurons)
-
 	return n
 }
 
@@ -37,12 +36,13 @@ func (node *Node) UpdateInfo(info Info) {
 
 func (node *Node) DecideToTrade(i int, mkt Stock_Market) ticket {
 	// true means buy, false meanse sell
-	action, value := node.trader.MLP.PropagateForward()
+
+	action, value := node.trader.MLP.RandomFunc()
 	var ticket ticket
 	if action == 1 {
-		ticket.action = true
+		ticket.action = true // buy
 	} else if action == 2 {
-		ticket.action = false
+		ticket.action = false // sell
 	} else {
 		return ticket
 	}

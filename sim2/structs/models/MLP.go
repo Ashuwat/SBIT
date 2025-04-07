@@ -1,6 +1,11 @@
 package models
 
-import "math"
+import (
+	"math"
+	"math/rand/v2"
+
+	"github.com/x448/float16"
+)
 
 type MLP struct {
 	layers  int
@@ -10,7 +15,7 @@ type MLP struct {
 }
 
 func sigmoid(number float32) float32 {
-	return (1 / (1 + float32(math.Exp(-1*float64(number)))))
+	return (1 / (1 + float32(math.Exp(float64(number)*-1))))
 }
 
 func (mlp *MLP) InitializeNetwork(belief []float32, neurons [][2]float32) {
@@ -18,21 +23,32 @@ func (mlp *MLP) InitializeNetwork(belief []float32, neurons [][2]float32) {
 	mlp.Neurons = neurons
 }
 
+func (mlp *MLP) RandomFunc() (int8, float16.Float16) {
+	x := rand.Float32()
+	y := rand.IntN(10)
+	if x < 0.45 {
+		return 1, float16.Float16(y) // buy
+	} else if x < 0.9 {
+		return 2, float16.Float16(y) // sell
+	} else {
+		return 0, float16.Float16(y)
+	}
+}
+
 func (mlp *MLP) PropagateForward() (int8, float32) {
-	print()
 	var resultingVector_1 float32
 	var resultingVector_2 float32
 	for i := range mlp.Belief {
 		resultingVector_1 = resultingVector_1 + mlp.Belief[i]*mlp.Neurons[i][0]
 		resultingVector_2 = resultingVector_2 + mlp.Belief[i]*mlp.Neurons[i][1]
 	}
-	first := sigmoid(resultingVector_1)
+	first := math.Sin(float64(resultingVector_1))
 	if first < -0.2 {
-		return 0, resultingVector_2
+		return 0, resultingVector_2 // nothing
 	} else if first < 0.2 {
-		return 1, resultingVector_2
+		return 1, resultingVector_2 // buy
 	} else {
-		return 2, resultingVector_2
+		return 2, resultingVector_2 // sell
 	}
 }
 

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand/v2"
 	pwd "test/numbers"
 )
 
@@ -24,5 +25,9 @@ func main() {
 	// printInfo(&n)
 	// printInfo(&s)
 	// println(s.IsPrime())
+	println(rand.Int32())
+	println(rand.Int32())
+	println(rand.Int32())
+	println(rand.Int32())
 	testing(4)
 }
