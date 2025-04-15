@@ -3,8 +3,6 @@ package models
 import (
 	"math"
 	"math/rand/v2"
-
-	"github.com/x448/float16"
 )
 
 type MLP struct {
@@ -23,15 +21,15 @@ func (mlp *MLP) InitializeNetwork(belief []float32, neurons [][2]float32) {
 	mlp.Neurons = neurons
 }
 
-func (mlp *MLP) RandomFunc() (int8, float16.Float16) {
+func (mlp *MLP) RandomFunc() (int8, float32) {
 	x := rand.Float32()
 	y := rand.IntN(10)
 	if x < 0.45 {
-		return 1, float16.Float16(y) // buy
+		return 1, float32(y) // buy
 	} else if x < 0.9 {
-		return 2, float16.Float16(y) // sell
+		return 2, float32(y) // sell
 	} else {
-		return 0, float16.Float16(y)
+		return 0, float32(y)
 	}
 }
 
@@ -54,4 +52,8 @@ func (mlp *MLP) PropagateForward() (int8, float32) {
 
 func (mlp *MLP) PropagateBackward() {
 
+}
+
+func (mlp *MLP) CovariateAnalysis() {
+	
 }

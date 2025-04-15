@@ -1,24 +1,26 @@
 package main
 
 import (
+	"main/json"
 	"main/structs"
-
-	"github.com/x448/float16"
 )
 
 func main() {
-	NODE_AMOUNT := 50
-	SIMULATION := 5
-	var INIT_PRICE float16.Float16 = 400
-
+	NODE_AMOUNT := 2500
+	SIMULATION_EPOCHS := 10000
+	var INIT_PRICE float32 = 400
+	var output json.Output
 	var stock_market structs.Stock_Market
 	var node_collection structs.NodeCollection
-	stock_market.InitializeMarket(INIT_PRICE)
+	var bid structs.Bid
+	var ask structs.Ask
+
+	stock_market.InitializeMarket(INIT_PRICE, &bid, &ask)
 	for range NODE_AMOUNT {
 		var something = structs.InitializeNode()
 		node_collection.Nodes = append(node_collection.Nodes, *something)
 	}
-	for range SIMULATION {
+	for range SIMULATION_EPOCHS {
 		var info structs.Info
 		for i := range node_collection.Nodes {
 			node := node_collection.Nodes[i]
@@ -28,7 +30,10 @@ func main() {
 		}
 	}
 
-	// for i := range stock_market.PrevPrices {
-	// 	println(int(stock_market.PrevPrices[i]))
+	// for i := range node_collection.Nodes {
+	// 	println(node_collection.Nodes[i].Investment)
 	// }
+
+	output.AppendAllNodeInvestments(node_collection)
+	json.ConvertJson(output)
 }

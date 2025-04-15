@@ -1,27 +1,34 @@
 package structs
 
-type ask struct {
-	log         []ticket
+import "slices"
+
+type Ask struct {
+	log         []*ticket
 	lowestPrice Price
 }
 
-func (ask *ask) init() {
+func (ask *Ask) init() {
 	ask.lowestPrice = 65535
+	ask.log = []*ticket{}
 }
 
-func (ask *ask) getLowestPrice() Price {
-	for i := 0; i < len(ask.log); i++ {
-		if ask.log[i].price > ask.lowestPrice {
+func (ask *Ask) getLowestPrice() (Price, bool) {
+	if len(ask.log) == 0 {
+		return 0, false
+	}
+	for i := range ask.log {
+		if ask.log[i].price < ask.lowestPrice {
 			ask.lowestPrice = ask.log[i].price
 		}
 	}
-	return ask.lowestPrice
+	return ask.lowestPrice, true
 }
 
-func (ask *ask) removeFromList(ticket ticket) {
+func (ask *Ask) removeFromList(ticket ticket) {
 	for i := range ask.log {
-		if ticket == ask.log[i] {
-			ask.log = append(ask.log[:i], ask.log[i+1:]...)
+		if ticket == *ask.log[i] {
+			ask.log = slices.Delete(ask.log, i, i+1)
+			return
 		}
 	}
 }

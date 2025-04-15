@@ -12,7 +12,7 @@ type Node struct {
 	info       Info
 	layers     int
 	address    address
-	investment Price
+	Investment Price
 }
 
 func InitializeNode() *Node {
@@ -49,6 +49,7 @@ func (node *Node) DecideToTrade(i int, mkt Stock_Market) ticket {
 	ticket.price = value
 	ticket.address = node.address
 	ticket.date = i
+
 	if ticket.action {
 		mkt.Buy(ticket)
 	} else {
@@ -64,7 +65,9 @@ func (nodeC *NodeCollection) updateNodeInvestmentsFromFilledOrder(ticket ticket)
 	for i := range nodeC.Nodes {
 		if nodeC.Nodes[i].address == ticket.address {
 			if ticket.action {
-				nodeC.Nodes[i].investment -= ticket.price
+				nodeC.Nodes[i].Investment -= ticket.price
+			} else {
+				nodeC.Nodes[i].Investment += ticket.price
 			}
 		}
 	}
