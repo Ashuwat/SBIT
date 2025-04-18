@@ -11,17 +11,19 @@ type Node struct {
 	trader     models.Models
 	info       Info
 	layers     int
-	address    address
+	Address    address
 	Investment Price
+	Shares     int
 }
 
-func InitializeNode() *Node {
+func InitializeNode(investment Price, shares int) *Node {
 	var beliefs []float32
 	var neurons [][2]float32
-
 	n := new(Node)
+	n.Investment = investment
+	n.Shares = shares
 	n.layers = rand.IntN(5)
-	n.address = rand.Int32()
+	n.Address = rand.Int32()
 	for range 10 {
 		beliefs = append(beliefs, float32(rand.IntN(10)))
 		neurons = append(neurons, [2]float32{float32(rand.IntN(10)), float32(rand.IntN(10))})
@@ -34,41 +36,42 @@ func (node *Node) UpdateInfo(info Info) {
 	node.info = info
 }
 
-func (node *Node) DecideToTrade(i int, mkt Stock_Market) ticket {
+func (node *Node) DecideToTrade(i int, mkt Stock_Market) *ticket {
 	// true means buy, false meanse sell
 
-	action, value := node.trader.MLP.RandomFunc()
-	var ticket ticket
+	action, value, limit := node.trader.MLP.RandomFunc()
+	ticket := new(ticket)
 	if action == 1 {
 		ticket.action = true // buy
 	} else if action == 2 {
 		ticket.action = false // sell
-	} else {
-		return ticket
 	}
 	ticket.price = value
-	ticket.address = node.address
+	ticket.address = node.Address
 	ticket.date = i
+	ticket.quantity = limit
 
-	if ticket.action {
+	if ticket.action && (node.Investment-ticket.price) >= 0 {
 		mkt.Buy(ticket)
-	} else {
+	} else if node.Shares-ticket.quantity >= 0 {
 		mkt.Sell(ticket)
 	}
 	return ticket
 }
 
 // for group functions
-type NodeCollection struct{ Nodes []Node }
+type NodeCollection struct{ Nodes map[address]*Node }
 
-func (nodeC *NodeCollection) updateNodeInvestmentsFromFilledOrder(ticket ticket) {
-	for i := range nodeC.Nodes {
-		if nodeC.Nodes[i].address == ticket.address {
-			if ticket.action {
-				nodeC.Nodes[i].Investment -= ticket.price
-			} else {
-				nodeC.Nodes[i].Investment += ticket.price
-			}
-		}
+func (nodeC *NodeCollection) Init() {
+	nodeC.Nodes = map[address]*Node{}
+}
+
+func (nodeC *NodeCollection) updateNodeInvestmentsFromFilledOrder(shares int, price Price, nodeAdd address, ticket *ticket) {
+	if ticket.action {
+		nodeC.Nodes[nodeAdd].Investment -= price
+		nodeC.Nodes[nodeAdd].Shares += shares
+	} else {
+		nodeC.Nodes[nodeAdd].Investment += price
+		nodeC.Nodes[nodeAdd].Shares -= shares
 	}
 }

@@ -21,15 +21,16 @@ func (mlp *MLP) InitializeNetwork(belief []float32, neurons [][2]float32) {
 	mlp.Neurons = neurons
 }
 
-func (mlp *MLP) RandomFunc() (int8, float32) {
+func (mlp *MLP) RandomFunc() (int8, float32, int) {
 	x := rand.Float32()
-	y := rand.IntN(10)
+	y := rand.IntN(50)
+	z := (rand.IntN(9)) + 1
 	if x < 0.45 {
-		return 1, float32(y) // buy
+		return 1, float32(y), z // buy
 	} else if x < 0.9 {
-		return 2, float32(y) // sell
+		return 2, float32(y), z // sell
 	} else {
-		return 0, float32(y)
+		return 0, float32(y), z
 	}
 }
 
@@ -55,5 +56,5 @@ func (mlp *MLP) PropagateBackward() {
 }
 
 func (mlp *MLP) CovariateAnalysis() {
-	
+
 }
