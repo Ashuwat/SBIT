@@ -19,7 +19,7 @@ func ConvertJson(out Output) error {
 	if err != nil {
 		return err
 	} else {
-		os.WriteFile("model.json", json, os.ModePerm)
+		os.WriteFile("model_1.json", json, os.ModePerm)
 	}
 	return err
 }
@@ -42,7 +42,8 @@ func (out *Output) AppendMarketPrices(mkt structs.Stock_Market) {
 	}
 }
 
-func (out *Output) AppendNodeStats(i int, node *structs.Node) {
+func (out *Output) AppendNodeStats(j int64, node *structs.Node) {
+	i := int(j)
 	out.Agg_Node_Investments[i] = append(out.Agg_Node_Investments[i], node.Investment)
 	out.Agg_Node_Shares[i] = append(out.Agg_Node_Shares[i], node.Shares)
 }

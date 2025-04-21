@@ -2,10 +2,11 @@ package structs
 
 type ticket struct {
 	address  address
-	date     int
+	tickAdd  address
 	action   bool
 	price    Price
 	quantity int
+	invest   bool
 }
 
 func (ticket *ticket) updateTicket() {

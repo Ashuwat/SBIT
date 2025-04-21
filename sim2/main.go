@@ -7,7 +7,7 @@ import (
 
 func main() {
 	NODE_AMOUNT := 10000
-	SIMULATION_EPOCHS := 100
+	SIMULATION_EPOCHS := 50
 	var INIT_PRICE float32 = 1000
 	var output json.Output
 	var stock_market structs.Stock_Market
@@ -19,25 +19,29 @@ func main() {
 	node_collection.Init()
 
 	stock_market.InitializeMarket(INIT_PRICE, &bid, &ask)
-	for range NODE_AMOUNT {
-		var something = structs.InitializeNode(20, 100)
+	for i := range NODE_AMOUNT {
+		var something = structs.InitializeNode(int64(i), 20, 100)
 		node_collection.Nodes[something.Address] = something
 	}
 
+	var count int64 = 0
 	for i := range SIMULATION_EPOCHS {
-		var count int = 0
+		var innerCount int64 = 0
 		var info structs.Info
 		for address := range node_collection.Nodes {
 			node := node_collection.Nodes[address]
 			node.UpdateInfo(info)
+			// println(1)
 			ticket := node.DecideToTrade(count, stock_market)
+			// println(2)
 			stock_market.OrderToFill(node_collection, ticket)
-			output.AppendNodeStats(count, node)
+			// println(3)
+			output.AppendNodeStats(innerCount, node)
+			// println()
 			count++
+			innerCount++
 		}
-		if (i % 10) == 0 {
-			println(i)
-		}
+		print(i)
 	}
 
 	// for i := range node_collection.Nodes {

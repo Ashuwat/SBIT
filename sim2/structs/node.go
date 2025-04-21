@@ -5,7 +5,7 @@ import (
 	"math/rand/v2"
 )
 
-type address = int32
+type address = int64
 
 type Node struct {
 	trader     models.Models
@@ -16,14 +16,14 @@ type Node struct {
 	Shares     int
 }
 
-func InitializeNode(investment Price, shares int) *Node {
+func InitializeNode(i int64, investment Price, shares int) *Node {
 	var beliefs []float32
 	var neurons [][2]float32
 	n := new(Node)
 	n.Investment = investment
 	n.Shares = shares
 	n.layers = rand.IntN(5)
-	n.Address = rand.Int32()
+	n.Address = i
 	for range 10 {
 		beliefs = append(beliefs, float32(rand.IntN(10)))
 		neurons = append(neurons, [2]float32{float32(rand.IntN(10)), float32(rand.IntN(10))})
@@ -36,7 +36,7 @@ func (node *Node) UpdateInfo(info Info) {
 	node.info = info
 }
 
-func (node *Node) DecideToTrade(i int, mkt Stock_Market) *ticket {
+func (node *Node) DecideToTrade(i int64, mkt Stock_Market) *ticket {
 	// true means buy, false meanse sell
 
 	action, value, limit := node.trader.MLP.RandomFunc()
@@ -45,18 +45,23 @@ func (node *Node) DecideToTrade(i int, mkt Stock_Market) *ticket {
 		ticket.action = true // buy
 	} else if action == 2 {
 		ticket.action = false // sell
+	} else {
+		ticket.invest = true
 	}
+
 	ticket.price = value
 	ticket.address = node.Address
-	ticket.date = i
+	ticket.tickAdd = int64(i)
 	ticket.quantity = limit
 
-	if ticket.action && (node.Investment-ticket.price) >= 0 {
+	if ticket.action && (node.Investment) >= 0 {
 		mkt.Buy(ticket)
-	} else if node.Shares-ticket.quantity >= 0 {
+		return ticket
+	} else if !ticket.action && (node.Shares-ticket.quantity >= 0) {
 		mkt.Sell(ticket)
+		return ticket
 	}
-	return ticket
+	return nil
 }
 
 // for group functions
