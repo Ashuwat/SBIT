@@ -5,8 +5,11 @@
 - The emergence patterns look like this:
 
 <img src="https://github.com/user-attachments/assets/085e682c-fdd1-4f37-8d97-285ada0ad110" width="300">
+
 These are the node positions before:
+
 <img src="https://github.com/user-attachments/assets/a476aa25-94d5-44fe-8adf-d2d366e4b11c" width="300">
+
 These are the positions after: 
 
 The purpose of this project was to see how social behaviours create groups (or clusters) of various information and are biased towards that information. For instance when information was passed along, there were only select groups that took the information, and many rejected it. 
