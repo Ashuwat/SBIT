@@ -5,9 +5,9 @@
 - The emergence patterns look like this:
 
 These are the node positions before:
-<img src="https://github.com/user-attachments/assets/085e682c-fdd1-4f37-8d97-285ada0ad110" width="48">
+<img src="https://github.com/user-attachments/assets/085e682c-fdd1-4f37-8d97-285ada0ad110" width="200">
 These are the positions after: 
-<img src="https://github.com/user-attachments/assets/a476aa25-94d5-44fe-8adf-d2d366e4b11c" width="48">
+<img src="https://github.com/user-attachments/assets/a476aa25-94d5-44fe-8adf-d2d366e4b11c" width="200">
 
 The purpose of this project was to see how social behaviours create groups (or clusters) of various information and are biased towards that information. For instance when information was passed along, there were only select groups that took the information, and many rejected it. 
 The implications of this model can be shown in financial markets, to understand what groups may be going long, or short in a specific market.
