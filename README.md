@@ -1,4 +1,3 @@
-![image](https://github.com/user-attachments/assets/267d6a14-797b-410f-85e7-cacb6f50d14c)![image](https://github.com/user-attachments/assets/25752d9a-6618-4fc6-a1fd-0397569d240e) 
 #### Sim_1 is a simulation that shows segregation of nodes through emergence.
 - The simulation consists of n number of nodes that are attracted to nodes that have have similar vectors (done by checking vector similarity)
 - These nodes only follow 1 rule: move closer to the nodes that are more alike
@@ -6,9 +5,9 @@
 - The emergence patterns look like this:
 
 These are the node positions before:
-![image](https://github.com/user-attachments/assets/085e682c-fdd1-4f37-8d97-285ada0ad110)
+<img src="https://github.com/user-attachments/assets/085e682c-fdd1-4f37-8d97-285ada0ad110" width="48">
 These are the positions after: 
-![image](https://github.com/user-attachments/assets/a476aa25-94d5-44fe-8adf-d2d366e4b11c)
+<img src="https://github.com/user-attachments/assets/a476aa25-94d5-44fe-8adf-d2d366e4b11c" width="48">
 
 The purpose of this project was to see how social behaviours create groups (or clusters) of various information and are biased towards that information. For instance when information was passed along, there were only select groups that took the information, and many rejected it. 
 The implications of this model can be shown in financial markets, to understand what groups may be going long, or short in a specific market.
