@@ -1,3 +1,5 @@
+*Both of these sims are made with Go, and analyzed using notebooks*
+
 #### Sim_1 is a simulation that shows segregation of nodes through emergence.
 - The simulation consists of n number of nodes that are attracted to nodes that have have similar vectors (done by checking vector similarity)
 - These nodes only follow 1 rule: move closer to the nodes that are more alike
