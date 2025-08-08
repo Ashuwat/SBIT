@@ -1,3 +1,5 @@
+## Social Behaviour and Information Theory Project
+
 *Both of these sims are made with Go, and analyzed using notebooks*
 
 #### Sim_1 is a simulation that shows segregation of nodes through emergence.
@@ -29,3 +31,4 @@ This one is a lot cooler.
 - Orders get filled, and the cycle continues.
 
 There was a lot of analysis that happened here, it can be seen in the ```interpretation``` folder. 
+
