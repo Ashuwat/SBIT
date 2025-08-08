@@ -1,4 +1,4 @@
-## Social Behaviour and Information Theory Project
+## Social Behaviour and Information Theory Simululation(s)
 
 *Both of these sims are made with Go, and analyzed using notebooks*
 
@@ -31,4 +31,5 @@ This one is a lot cooler.
 - Orders get filled, and the cycle continues.
 
 There was a lot of analysis that happened here, it can be seen in the ```interpretation``` folder. 
+
 
